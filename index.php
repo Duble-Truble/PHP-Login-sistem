@@ -8,31 +8,31 @@ if(isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] === true){
     exit;
 }
 
-// uporabi congig.php
+// use congig.php
 require_once "config.env";
 
-// defineraj var
+// def. var
 $username = $password = "";
 $username_err = $password_err = "";
 
-// procesiraj formo
+// process form
 if($_SERVER["REQUEST_METHOD"] == "POST"){
 
-    // preveri če je username prazen
+    // check if user feald is empty
     if(empty(trim($_POST["username"]))){
         $username_err = "Vnesi uporabniško ime!.";
     } else{
         $username = trim($_POST["username"]);
     }
 
-    // preveri če je pwr prazen
+    // check if pwr feald is empty
     if(empty(trim($_POST["password"]))){
         $password_err = "Vnesi Geslo!.";
     } else{
         $password = trim($_POST["password"]);
     }
 
-    // potrdi
+    // prepare stmt
     if(empty($username_err) && empty($password_err)){
         // pripravi
         $sql = "SELECT id, username, password FROM users WHERE username = ?";
