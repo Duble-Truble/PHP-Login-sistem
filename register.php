@@ -1,20 +1,20 @@
 <?php
 
-// vključi config file
+// include congig pile
 require_once "config.env";
 
 // definicije
 $username = $password = $confirm_password = "";
 $username_err = $password_err = $confirm_password_err = "";
 
-// proceseranje
+// process
 if($_SERVER["REQUEST_METHOD"] == "POST"){
 
     // username
     if(empty(trim($_POST["username"]))){
         $username_err = "Prosimo vnesite uporabniško ime.";
     } else{
-        // pripravi stmt
+        
         $sql = "SELECT id FROM users WHERE username = ?";
 
         if($stmt = mysqli_prepare($link, $sql)){
@@ -24,7 +24,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
             
             $param_username = trim($_POST["username"]);
 
-            // poskušaj izvesti
+            // try exeecute
             if(mysqli_stmt_execute($stmt)){
                 /*shrani rezultat*/
                 mysqli_stmt_store_result($stmt);
@@ -38,12 +38,12 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
                 echo "Oops! Nekaj je šlo narobe, poiskusite kasneje .";
             }
 
-            // zapri
+            // close
             mysqli_stmt_close($stmt);
         }
     }
 
-    // preveri pwr
+    // check pwr
     if(empty(trim($_POST["password"]))){
         $password_err = "Prosim vnesite geslo.";
     } elseif(strlen(trim($_POST["password"])) < 6){
@@ -52,7 +52,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
         $password = trim($_POST["password"]);
     }
 
-    // potrdi pwr
+    
     if(empty(trim($_POST["confirm_password"]))){
         $confirm_password_err = "Prosim preveri geslo.";
     } else{
@@ -62,21 +62,21 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
         }
     }
 
-    // preveri napake pred vpisom v db
+    // check for user error befor insert into db
     if(empty($username_err) && empty($password_err) && empty($confirm_password_err)){
 
-        // pripravi ins_stmt
+        // set ins_stmt
         $sql = "INSERT INTO users (username, password) VALUES (?, ?)";
 
         if($stmt = mysqli_prepare($link, $sql)){
             // združi
             mysqli_stmt_bind_param($stmt, "ss", $param_username, $param_password);
 
-            // nastavi parametre
+            // set parameters and hash pwr for security
             $param_username = $username;
             $param_password = password_hash($password, PASSWORD_DEFAULT); // za HASHA kodo
 
-            // izvedba
+            // exsecute
             if(mysqli_stmt_execute($stmt)){
                 // povezava
                 header("location: index.php");
@@ -84,12 +84,12 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
                 echo "Nekaj je šlo narobe, poiskusite kasneje.";
             }
 
-            // zapri stmt
+            // close stmt
             mysqli_stmt_close($stmt);
         }
     }
 
-    // zapri povezavo
+    // close link to db
     mysqli_close($link);
 }
 ?>
@@ -136,6 +136,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
     </div>
 </body>
  <script>
+     //note the token is public
 grecaptcha.ready(function() {
     grecaptcha.execute('6LevGuoUAAAAACNytWgRRG5UG87l1KJW72Av966x', {action: 'homepage'}).then(function(token) {
        console.log(token);
