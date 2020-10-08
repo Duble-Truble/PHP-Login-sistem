@@ -2,7 +2,7 @@
  define( 'varovalka', true );
 
   include_once './shared.php';
-// zastartaj 
+// start seasson
 session_start();
  
 // preglej če je up ze prijavljen, ce ni ga preusmeri 
