@@ -1,8 +1,8 @@
 <?php
-// začni
+// stasart seeson
 session_start();
 
-// preglej če je user že logeran in preusmeri na welcom.php
+// check for login if not rederect welcom.php
 if(isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] === true){
     header("location: welcome");
     exit;
