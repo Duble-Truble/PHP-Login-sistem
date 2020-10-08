@@ -6,10 +6,10 @@ error_reporting(E_ALL);
   require "config.env";
   require"dbcon.php";
   
-// zastartaj 
+// start session
 session_start();
  
-// preglej če je up ze prijavljen, ce ni ga preusmeri 
+// check if the user is alredy logged in, if not is rederected
 if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
     header("location: index.php");
     exit;
