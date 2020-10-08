@@ -17,7 +17,7 @@ error_reporting(E_ALL);
       'type' => 'success'
     );
 
-    // Po uspšenem izbrisu me premakni ne seznam vseh
+    // rederect 
     header("location: data_base.php");
 
     ?>
